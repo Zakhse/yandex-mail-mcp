@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-10-12",
+  "mail_mcp": {
+    "version": "0.4.16",
+    "source_commit": "e9b11a18f0805a0d8a9d77eb67c224feb58a5cab",
+    "image": "ghcr.io/tecnologicachile/mail-mcp@sha256:019a84ab766b67354fdc0d52cf403438270e46d78ba4e5901d4dc930973e31c3",
+    "tag": "ghcr.io/tecnologicachile/mail-mcp:v0.4.16"
+  },
+  "cloudflared": {
+    "version": "2026.10.0",
+    "image": "cloudflare/cloudflared@sha256:9b49eed8f62806d5d45ddf59ecefb5710429598ea6d3fcccd2af938f621b2b07",
+    "tag": "cloudflare/cloudflared:2026.10.0"
+  },
+  "northflank_cli": {
+    "package": "@northflank/cli",
+    "version": "0.13.0",
+    "node_minimum": "22.13.0"
+  },
+  "base_image": {
+    "tag": "bash:5.3",
+    "image": "bash@sha256:61962062d969cb46dfc2bad061d36342406fa485f64f246aa7e95693ca07df1f"
+  }
+}

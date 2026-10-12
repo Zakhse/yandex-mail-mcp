@@ -1,0 +1,44 @@
+{
+  "name": "yandex-mail-mcp",
+  "description": "One private container for Mail MCP and Cloudflare Tunnel",
+  "billing": {
+    "deploymentPlan": "nf-compute-10"
+  },
+  "deployment": {
+    "instances": 0,
+    "docker": {
+      "configType": "default"
+    },
+    "gracePeriodSeconds": 15
+  },
+  "vcsData": {
+    "projectUrl": "https://github.com/EXAMPLE/yandex-mail-mcp",
+    "projectType": "github",
+    "projectBranch": "main"
+  },
+  "buildSettings": {
+    "dockerfile": {
+      "dockerFilePath": "/Dockerfile",
+      "dockerWorkDir": "/",
+      "buildEngine": "buildkit",
+      "buildkit": {
+        "useCache": false
+      }
+    }
+  },
+  "ports": [],
+  "runtimeEnvironment": {},
+  "buildArguments": {},
+  "healthChecks": [
+    {
+      "protocol": "CMD",
+      "type": "readinessProbe",
+      "cmd": "/usr/local/bin/bash -c 'exec 3<>/dev/tcp/127.0.0.1/8000 && wget -q -O /dev/null http://127.0.0.1:2000/ready'",
+      "initialDelaySeconds": 10,
+      "periodSeconds": 15,
+      "timeoutSeconds": 3,
+      "failureThreshold": 3,
+      "successThreshold": 1
+    }
+  ]
+}

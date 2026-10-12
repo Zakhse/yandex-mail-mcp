@@ -1,0 +1,13 @@
+# Reference only: configure this route in your remotely managed named tunnel.
+# cloudflared does NOT interpolate these placeholders in a local YAML file.
+# Do not mount this file in the token-based deployment.
+ingress:
+  - hostname: <YOUR_MCP_HOSTNAME>
+    service: http://127.0.0.1:8000
+    originRequest:
+      access:
+        required: true
+        teamName: <YOUR_ZERO_TRUST_TEAM_NAME>
+        audTag:
+          - <YOUR_SELF_HOSTED_ACCESS_APP_AUDIENCE>
+  - service: http_status:404

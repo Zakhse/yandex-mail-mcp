@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+*.local.*
+.private/
+work/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.eml
+*.mbox
+attachments/
+credentials.json
+cert.pem
+.DS_Store

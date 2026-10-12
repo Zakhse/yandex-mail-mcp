@@ -1,0 +1,16 @@
+services:
+  yandex-mail-mcp:
+    build: .
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    environment:
+      MAIL_IMAP_DEFAULT_HOST: ${MAIL_IMAP_DEFAULT_HOST:-imap.yandex.com}
+      MAIL_IMAP_DEFAULT_USER: ${MAIL_IMAP_DEFAULT_USER:?Set the IMAP username privately}
+      MAIL_IMAP_DEFAULT_PASS: ${MAIL_IMAP_DEFAULT_PASS:?Set the app password privately}
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?Set the named tunnel token privately}
+    # No host ports. MCP and connector metrics listen on loopback inside this container.

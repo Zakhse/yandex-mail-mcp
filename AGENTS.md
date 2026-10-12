@@ -25,7 +25,7 @@ cloudflared with Access JWT enforcement -> loopback mail-mcp HTTP endpoint ->
 Yandex IMAP with TLS and a dedicated app password.
 
 - ONE Northflank combined service and ONE container, preserving the second free
-  service slot. Copy two ready-made upstream binaries into a pinned Bash image.
+  service slot. Copy two ready-made upstream binaries into a configurable Bash image.
   A small process supervisor is allowed; no custom OAuth server or JWT proxy.
 - No Workers, KV, database, public Northflank ports, fixed IP or home host.
 - Bind MCP to loopback. Route the named tunnel to http://127.0.0.1:8000.
@@ -51,7 +51,8 @@ Yandex IMAP with TLS and a dedicated app password.
 - tecnologicachile/mail-mcp v0.4.16 supports stateless Streamable HTTP /mcp,
   configurable through MAIL_MCP_TRANSPORT and MAIL_MCP_HTTP_*.
 - HTTP has no built-in authentication and no /health endpoint.
-- All three image manifests are publicly retrievable and pinned in deploy/versions.json.
+- Dockerfile image arguments default to latest. deploy/versions.json is the last
+  verified image snapshot for reproduction/rollback, not a build lock.
 - Northflank documents two always-on free services, one Sandbox project, private
   project networking, CLI/API, and a payment method requirement for all plans.
   A plan ID alone does not prove a resource is free; check the account quote.
@@ -67,8 +68,9 @@ Yandex IMAP with TLS and a dedicated app password.
 ## Work procedure
 
 Inspect the exact release source and official docs before changing env names,
-paths, image pins, auth recipes or billing claims. Keep deploy/versions.json,
-Dockerfile, Compose and Northflank definitions in sync. Check image provenance/platforms,
+paths, image references, auth recipes or billing claims. Keep Dockerfile and
+Compose defaults in sync; update deploy/versions.json only with verified images.
+Check image provenance/platforms,
 known issues, secrets handling, private ports and runtime write gates.
 
 Run scripts/check_public.py and tests/test_upstream.py with a checksum-verified

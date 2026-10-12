@@ -1,6 +1,11 @@
 services:
   yandex-mail-mcp:
-    build: .
+    build:
+      context: .
+      args:
+        MAIL_MCP_IMAGE: ${MAIL_MCP_IMAGE:-ghcr.io/tecnologicachile/mail-mcp:latest}
+        CLOUDFLARED_IMAGE: ${CLOUDFLARED_IMAGE:-cloudflare/cloudflared:latest}
+        BASH_IMAGE: ${BASH_IMAGE:-bash:latest}
     restart: unless-stopped
     read_only: true
     cap_drop: [ALL]

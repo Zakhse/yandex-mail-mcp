@@ -30,8 +30,24 @@ ChatGPT / remote MCP client
 MCP and connector metrics bind to container loopback. **No Northflank ports are
 published or configured.** A small Bash supervisor starts both binaries, forwards
 shutdown signals, and exits if either child stops so the platform can restart the
-whole container. Image manifests are pinned in [deploy/versions.json](deploy/versions.json).
+whole container. Images default to `latest` and can be overridden through build
+arguments. [deploy/versions.json](deploy/versions.json) records the last verified
+image snapshot for reproduction or rollback; it does not lock the build.
 This launcher is the only runtime custom code; it does not implement authentication.
+
+### Image updates
+
+Dockerfile arguments `MAIL_MCP_IMAGE`, `CLOUDFLARED_IMAGE` and `BASH_IMAGE` accept
+any tag or digest you choose. Compose reads the same overrides from your local
+environment or ignored `.env`. Northflank accepts them as build arguments.
+Do not put mailbox credentials or tunnel tokens in build arguments.
+
+To fetch the current `latest` images, rebuild with `docker compose build --pull`
+and then run `docker compose up -d`. On Northflank, trigger a new build with fresh
+base-image pulls. Changing an upstream tag does not update a running container or
+automatically trigger a repository build. Mutable tags can change behavior; the
+verification record applies only to the image digests actually tested. For an
+exact reproduction or rollback, supply the recorded digests as build arguments.
 
 ## Costs and limits — checked 2026-10-12
 
@@ -298,6 +314,6 @@ service, verify access, then revoke the old app password. Rotate the tunnel toke
 in Cloudflare and the same Secret group, restart, and confirm the connector is
 healthy. Revoke Access grants/sessions or change policy as needed; refresh and
 session behavior must be verified with the actual client. Keep the old image
-pins as a rollback reference; update all pins together after synthetic tests.
+snapshot as a rollback reference; verify fresh images after synthetic tests.
 Pagination cursors and attachment files are ephemeral and are lost on replacement.
 Do not print raw logs or secret-bearing API responses when diagnosing a failure.

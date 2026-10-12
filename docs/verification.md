@@ -27,7 +27,7 @@ live acceptance. No real mailbox or hosting account was used.
   Verified `nf login`, `nf list projects`, and `nf create service combined` options
   using help output only. No account login or provisioning took place.
 - Retrieved anonymous public registry manifests for mail-mcp v0.4.16,
-  cloudflared 2026.10.0 and Bash 5.3. Image index digests are pinned in
+  cloudflared 2026.10.0 and Bash 5.3. Image index digests are recorded in
   `deploy/versions.json`; Linux AMD64 and ARM64 platforms are present.
 
 ## Inspected source and official documentation
@@ -94,6 +94,12 @@ live acceptance. No real mailbox or hosting account was used.
   resources with other names. No existing resources were modified.
 
 ## Not executed — needs an authorized deployment
+
+Dockerfile defaults now use configurable `latest` tags. The recorded digests above
+identify the images used in the executed tests; they do not freeze future builds.
+Any future upstream change must be checked before claiming the same behavior.
+On 2026-10-12, all three public `latest` manifests resolved to the same recorded
+digests. Compose YAML and Dockerfile argument defaults were checked for consistency.
 
 The following are also pending: the account's actual free-plan/build quote and
 quota accounting; container memory/storage under representative attachment load;

@@ -55,10 +55,6 @@ for name in sorted(paths):
         host = urlsplit(value).hostname
         if host and host not in allowed_hosts and host not in {'127.0.0.1', 'localhost', 'your_mcp_hostname'} and not host.endswith(('.example', '.invalid')):
             failures.append((str(name), 'unreviewed-hostname'))
-lock = json.loads((root / 'deploy/versions.json').read_text())
-for key in ['mail_mcp', 'cloudflared', 'base_image']:
-    if lock[key]['image'] not in (root / 'Dockerfile').read_text():
-        failures.append(('Dockerfile', 'image-pin-mismatch'))
 body = json.loads((root / 'deploy/northflank/combined-service.example.json').read_text())
 if body['ports'] or body['deployment']['instances'] != 0 or body['runtimeEnvironment'] or body['buildArguments']:
     failures.append(('deploy/northflank/combined-service.example.json', 'unsafe-defaults'))

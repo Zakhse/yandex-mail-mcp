@@ -1,7 +1,10 @@
 # Only copy prebuilt upstream binaries: no Rust/Go compilation or auth proxy.
-FROM ghcr.io/tecnologicachile/mail-mcp@sha256:019a84ab766b67354fdc0d52cf403438270e46d78ba4e5901d4dc930973e31c3 AS mail
-FROM cloudflare/cloudflared@sha256:9b49eed8f62806d5d45ddf59ecefb5710429598ea6d3fcccd2af938f621b2b07 AS tunnel
-FROM bash@sha256:61962062d969cb46dfc2bad061d36342406fa485f64f246aa7e95693ca07df1f
+ARG MAIL_MCP_IMAGE=ghcr.io/tecnologicachile/mail-mcp:latest
+ARG CLOUDFLARED_IMAGE=cloudflare/cloudflared:latest
+ARG BASH_IMAGE=bash:latest
+FROM ${MAIL_MCP_IMAGE} AS mail
+FROM ${CLOUDFLARED_IMAGE} AS tunnel
+FROM ${BASH_IMAGE}
 COPY --from=mail /mail-mcp /mail-mcp
 COPY --from=mail /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=tunnel /usr/local/bin/cloudflared /usr/local/bin/cloudflared

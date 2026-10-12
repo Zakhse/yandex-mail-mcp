@@ -1,5 +1,6 @@
 {
   "checked_at": "2026-10-12",
+  "purpose": "Last verified image snapshot for reproduction or rollback; not a build lock",
   "mail_mcp": {
     "version": "0.4.16",
     "source_commit": "e9b11a18f0805a0d8a9d77eb67c224feb58a5cab",
